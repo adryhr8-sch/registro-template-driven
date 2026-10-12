@@ -1,52 +1,167 @@
 <main class="container">
   <h1>Formulario de registro de usuario</h1>
-  <div class="formulario">
-    <label>Nombre completo</label>
-    <input
-      type="text"
-      name="nombre"
-      id="nombre"
-      [(ngModel)]="nombre"
-      placeholder="Ingrese su nombre completo"
-    />
-    <label>Correo electrónico</label>
-    <input
-      type="email"
-      name="correo"
-      id="correo"
-      [(ngModel)]="correo"
-      placeholder="Ingrese su correo electrónico"
-    />
-    <label>Teléfono</label>
-    <input
-      type="text"
-      name="telefono"
-      id="telefono"
-      [(ngModel)]="telefono"
-      placeholder="Ingrese su teléfono"
-    />
-    <label>Edad</label>
-    <input type="number" name="edad" id="edad" [(ngModel)]="edad" placeholder="Ingrese su edad" />
-    <label>Contraseña</label>
-    <input
-      type="password"
-      name="contraseña"
-      id="contraseña"
-      [(ngModel)]="contrasena"
-      placeholder="Ingrese su contraseña"
-    />
-    <label>Confirmar contraseña</label>
-    <input
-      type="password"
-      name="confirmarContraseña"
-      id="confirmarContraseña"
-      [(ngModel)]="confirmarContrasena"
-      placeholder="Confirme su contraseña"
-    />
-  </div>
-  <div class="botonDiv">
-    <button (click)="registrar()">Registrar</button>
-  </div>
+  <form #registroForm="ngForm">
+    <div class="formulario">
+      <label for="nombre">Nombre completo</label>
+      <input
+        #nombreControl="ngModel"
+        [class.campo-valido]="nombreControl.valid && (nombreControl.touched || nombreControl.dirty)"
+        [class.campo-invalido]="
+          nombreControl.invalid && (nombreControl.touched || nombreControl.dirty)
+        "
+        type="text"
+        name="nombre"
+        id="nombre"
+        [(ngModel)]="nombre"
+        required
+        minlength="3"
+        placeholder="Ingrese su nombre completo"
+      />
+      <p
+        [hidden]="
+          !((nombreControl.touched || nombreControl.dirty) && nombreControl.errors?.['required'])
+        "
+      >
+        El nombre es obligatorio.
+      </p>
+      <p
+        [hidden]="
+          !((nombreControl.touched || nombreControl.dirty) && nombreControl.errors?.['minlength'])
+        "
+      >
+        El nombre debe tener mínimo 3 caracteres.
+      </p>
+
+      <label for="correo">Correo electrónico</label>
+      <input
+        #correoControl="ngModel"
+        [class.campo-valido]="correoControl.valid && (correoControl.touched || correoControl.dirty)"
+        [class.campo-invalido]="
+          correoControl.invalid && (correoControl.touched || correoControl.dirty)
+        "
+        type="email"
+        name="correo"
+        id="correo"
+        [(ngModel)]="correo"
+        required
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        placeholder="Ingrese su correo electrónico"
+      />
+      <p
+        [hidden]="
+          !((correoControl.touched || correoControl.dirty) && correoControl.errors?.['required'])
+        "
+      >
+        El correo electrónico es obligatorio.
+      </p>
+      <p
+        [hidden]="
+          !((correoControl.touched || correoControl.dirty) && correoControl.errors?.['pattern'])
+        "
+      >
+        Ingrese un correo electrónico con formato válido.
+      </p>
+
+      <label for="telefono">Teléfono</label>
+      <input
+        #telefonoControl="ngModel"
+        [class.campo-valido]="
+          telefonoControl.valid && (telefonoControl.touched || telefonoControl.dirty)
+        "
+        [class.campo-invalido]="
+          telefonoControl.invalid && (telefonoControl.touched || telefonoControl.dirty)
+        "
+        type="text"
+        name="telefono"
+        id="telefono"
+        [(ngModel)]="telefono"
+        required
+        placeholder="Ingrese su teléfono"
+      />
+      <p
+        [hidden]="
+          !(
+            (telefonoControl.touched || telefonoControl.dirty) &&
+            telefonoControl.errors?.['required']
+          )
+        "
+      >
+        El teléfono es obligatorio.
+      </p>
+
+      <label for="edad">Edad</label>
+      <input
+        #edadControl="ngModel"
+        [class.campo-valido]="edadControl.valid && (edadControl.touched || edadControl.dirty)"
+        [class.campo-invalido]="edadControl.invalid && (edadControl.touched || edadControl.dirty)"
+        type="number"
+        name="edad"
+        id="edad"
+        [(ngModel)]="edad"
+        min="18"
+        placeholder="Ingrese su edad"
+      />
+      <p [hidden]="!((edadControl.touched || edadControl.dirty) && edadControl.errors?.['min'])">
+        La edad mínima permitida es 18 años.
+      </p>
+
+      <label for="contrasena">Contraseña</label>
+      <input
+        #contrasenaControl="ngModel"
+        [class.campo-valido]="
+          contrasenaControl.valid && (contrasenaControl.touched || contrasenaControl.dirty)
+        "
+        [class.campo-invalido]="
+          contrasenaControl.invalid && (contrasenaControl.touched || contrasenaControl.dirty)
+        "
+        type="password"
+        name="contrasena"
+        id="contrasena"
+        [(ngModel)]="contrasena"
+        minlength="6"
+        placeholder="Ingrese su contraseña"
+      />
+      <p
+        [hidden]="
+          !(
+            (contrasenaControl.touched || contrasenaControl.dirty) &&
+            contrasenaControl.errors?.['minlength']
+          )
+        "
+      >
+        La contraseña debe tener mínimo 6 caracteres.
+      </p>
+
+      <label for="confirmarContrasena">Confirmar contraseña</label>
+      <input
+        #confirmarContrasenaControl="ngModel"
+        [class.campo-valido]="contrasenaControl.value === confirmarContrasenaControl.value && (contrasenaControl.touched || contrasenaControl.dirty)"
+        [class.campo-invalido]="contrasenaControl.value !== confirmarContrasenaControl.value && (contrasenaControl.touched || contrasenaControl.dirty)"
+        type="password"
+        name="confirmarContrasena"
+        id="confirmarContrasena"
+        [(ngModel)]="confirmarContrasena"
+        required
+        minlength="6"
+        placeholder="Confirme su contraseña"
+      />
+      <p
+        [hidden]="
+          !(
+            (confirmarContrasenaControl.touched || confirmarContrasenaControl.dirty) &&
+            confirmarContrasenaControl.errors?.['required']
+          )
+        "
+      >
+        La confirmación de la contraseña es obligatoria.
+      </p>
+    </div>
+    <div class="botonDiv">
+      <button type="submit" (click)="registrar()" [disabled]="registroForm.invalid">
+        Registrar
+      </button>
+    </div>
+  </form>
   <div class="datos">
     <p class="mensajeDatos">{{ mensajeDatos }}</p>
   </div>

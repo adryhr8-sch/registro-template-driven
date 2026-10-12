@@ -4,10 +4,43 @@
   align-items: center;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .formulario {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 300px;
+
+  label {
+    align-self: flex-start;
+  }
+
+  input {
+    width: 100%;
+    border: 2px solid #777;
+    border-radius: 4px;
+    padding: 8px;
+  }
+
+  input.campo-valido {
+    border-color: #218838;
+    background-color: #f0fff3;
+  }
+
+  input.campo-invalido {
+    border-color: #c82333;
+    background-color: #fff2f3;
+  }
+
+  p {
+    margin: 4px 0 12px;
+    color: #c82333;
+  }
 }
 
 .botonDiv {
